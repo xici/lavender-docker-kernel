@@ -37,6 +37,8 @@ CONFIG_CFQ_GROUP_IOSCHED
 CONFIG_CGROUP_HUGETLB
 ```
 
+`controller` 无法挂载。
+
 容器似乎无法联网（未完全测试）。
 
 目前的内核测试脚本结果：
@@ -160,7 +162,7 @@ Limits:
 - /proc/sys/kernel/keys/root_maxkeys: 1000000
 ```
 
-~~奇怪的是 missing 的选项我已经在内核编译配置中启用了，但刷入之后测试还是没有~~
+~~奇怪的是 missing 的选项我已经在内核编译配置中启用了，但刷入之后测试还是没有~~目前已知 missing 的选项是内核不支持的
 
 ~~更奇怪的是我一开始以为这个脚本检测的是内核编译配置文件~~
 
@@ -172,11 +174,11 @@ Limits:
 
 所以需要将 containerd 包降级为 `1.6.21-1`。由于酷安帖子中的链接已失效，所以 containerd 包是从[博客主的 github 仓库](https://github.com/kanadeblisst00/docker-in-guacamole)获取的。
 
-如果需要支持 `docker compose`，需要在 `/data/data/com.termux/files/usr/var/run` 中新建 `docker.sock` 文件，否则 `docker compose` 会报错找不到文件。
+如果需要支持 `docker compose`，需要在 `/data/data/com.termux/files/usr/var/run` 中新建 `docker.sock` 文件，然后将 `DOCKER_HOST=unix:///data/data/com.termux/files/usr/var/run/docker.sock` 添加到环境变量中。
 
 ## 自行编译
 
-可以使用我提供的 `Dockerfile` 构建镜像。在内核源码根目录执行 `build_kernel.sh` 脚本快速开始编译：
+可以使用我提供的 `Dockerfile` 构建镜像。在内核源码根目录执行 `build_kernel.sh` 快速开始编译：
 
 ```bash
 bash build_kernel.sh
