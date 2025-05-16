@@ -18,7 +18,7 @@
 
 ## 如何使用
 
-请确认系统版本是否正确！请备份boot，dtbo分区！完成这些操作后，使用任意第三方 recovery 刷入 `lavender-docker-kernel-x.zip` 即可。
+请确认系统版本是否正确！请备份boot，dtbo分区！完成这些操作后，使用任意第三方 recovery 刷入 `lavender-docker-kernel-x.zip` 即可（x 为版本号000）。
 
 ## docker 支持情况
 
@@ -168,13 +168,13 @@ Limits:
 
 ## 自行编译
 
-可以使用我提供的 `Dockerfile` 构建镜像。执行 `build_kernel.sh` 脚本快速开始编译：
+可以使用我提供的 `Dockerfile` 构建镜像。在内核源码根目录执行 `build_kernel.sh` 脚本快速开始编译：
 
 ```bash
 bash build_kernel.sh
 ```
 
-`build_kernel.sh` 脚本在编译成功后会自动合并 `Image.gz` 和 `sdm660-xiaomi-lavender.dtb` 文件，生成 `Image.gz-dtb` 文件。
+编译脚本在编译成功后会自动合并 `Image.gz` 和 `sdm660-xiaomi-lavender.dtb` 文件，生成 `Image.gz-dtb` 文件。
 
 之后再使用 AnyKernel3 提供的模板进行打包，生成可刷入的 zip 文件。基础教程：[如何使用 AnyKernel3 打包内核](https://github.com/tiann/KernelSU/discussions/952)
 
