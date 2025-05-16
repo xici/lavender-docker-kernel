@@ -29,7 +29,15 @@
 
 ## 问题
 
-容器似乎无法联网，除非使用 host 网络（未完全测试）。
+当前内核不支持的选项：
+
+```log
+CONFIG_IOSCHED_CFQ
+CONFIG_CFQ_GROUP_IOSCHED
+CONFIG_CGROUP_HUGETLB
+```
+
+容器似乎无法联网（未完全测试）。
 
 目前的内核测试脚本结果：
 
@@ -114,7 +122,7 @@ Optional Features:
 - Network Drivers:
   - "overlay":
     - CONFIG_VXLAN: enabled
-    - CONFIG_BRIDGE_VLAN_FILTERING: missing
+    - CONFIG_BRIDGE_VLAN_FILTERING: enabled
       Optional (for encrypted networks):
       - CONFIG_CRYPTO: enabled
       - CONFIG_CRYPTO_AEAD: enabled
@@ -152,7 +160,7 @@ Limits:
 - /proc/sys/kernel/keys/root_maxkeys: 1000000
 ```
 
-奇怪的是 missing 的选项我已经在内核编译配置中启用了，但刷入之后测试还是没有。
+~~奇怪的是 missing 的选项我已经在内核编译配置中启用了，但刷入之后测试还是没有~~
 
 ~~更奇怪的是我一开始以为这个脚本检测的是内核编译配置文件~~
 
