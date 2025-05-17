@@ -39,7 +39,7 @@ CONFIG_CGROUP_HUGETLB
 
 `controller` 无法挂载。
 
-~~容器无法联网。~~v1.2已修复。修复方法：[lxc-docker-support-for-android](https://github.com/tomxi1997/lxc-docker-support-for-android)
+~~容器无法联网~~v1.2已修复。修复方法：[lxc-docker-support-for-android](https://github.com/tomxi1997/lxc-docker-support-for-android)
 
 目前的内核测试脚本结果：
 
