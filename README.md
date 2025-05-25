@@ -26,6 +26,7 @@
 
 - docker 官方提供的 `hello-world` 镜像
 - [LangBot 的镜像](https://docs.langbot.app/zh/)
+- gitea 的镜像
 
 ## 问题
 
@@ -39,128 +40,11 @@ CONFIG_CGROUP_HUGETLB
 
 `controller` 无法挂载。
 
+刷入后导致屏幕轻微闪烁。
+
 ~~容器无法联网~~v1.2已修复。修复方法：[lxc-docker-support-for-android](https://github.com/tomxi1997/lxc-docker-support-for-android)
 
-目前的内核测试脚本结果：
-
-```log
-~ # bash check-config.sh 
-info: reading kernel config from /proc/config.gz ...
-
-Generally Necessary:
-- cgroup hierarchy: cgroupv2
-  Controllers:
-  - cpu: missing
-  - cpuset: missing
-  - io: missing
-  - memory: missing
-  - pids: missing
-- CONFIG_NAMESPACES: enabled
-- CONFIG_NET_NS: enabled
-- CONFIG_PID_NS: enabled
-- CONFIG_IPC_NS: enabled
-- CONFIG_UTS_NS: enabled
-- CONFIG_CGROUPS: enabled
-- CONFIG_CGROUP_CPUACCT: enabled
-- CONFIG_CGROUP_DEVICE: enabled
-- CONFIG_CGROUP_FREEZER: enabled
-- CONFIG_CGROUP_SCHED: enabled
-- CONFIG_CPUSETS: enabled
-- CONFIG_MEMCG: enabled
-- CONFIG_KEYS: enabled
-- CONFIG_VETH: enabled
-- CONFIG_BRIDGE: enabled
-- CONFIG_BRIDGE_NETFILTER: enabled
-- CONFIG_IP_NF_FILTER: enabled
-- CONFIG_IP_NF_MANGLE: enabled
-- CONFIG_IP_NF_TARGET_MASQUERADE: enabled
-- CONFIG_IP6_NF_FILTER: enabled
-- CONFIG_IP6_NF_MANGLE: enabled
-- CONFIG_IP6_NF_TARGET_MASQUERADE: enabled
-- CONFIG_NETFILTER_XT_MATCH_ADDRTYPE: enabled
-- CONFIG_NETFILTER_XT_MATCH_CONNTRACK: enabled
-- CONFIG_NETFILTER_XT_MATCH_IPVS: enabled
-- CONFIG_NETFILTER_XT_MARK: enabled
-- CONFIG_IP_NF_RAW: enabled
-- CONFIG_IP_NF_NAT: enabled
-- CONFIG_NF_NAT: enabled
-- CONFIG_IP6_NF_RAW: enabled
-- CONFIG_IP6_NF_NAT: enabled
-- CONFIG_NF_NAT: enabled
-- CONFIG_POSIX_MQUEUE: enabled
-- CONFIG_NF_NAT_IPV4: enabled
-- CONFIG_NF_NAT_NEEDED: enabled
-- CONFIG_CGROUP_BPF: enabled
-
-Optional Features:
-- CONFIG_USER_NS: enabled
-- CONFIG_SECCOMP: enabled
-- CONFIG_SECCOMP_FILTER: enabled
-- CONFIG_CGROUP_PIDS: enabled
-- CONFIG_MEMCG_SWAP: enabled
-- CONFIG_MEMCG_SWAP_ENABLED: enabled
-    (cgroup swap accounting is currently enabled)
-- CONFIG_IOSCHED_CFQ: missing
-- CONFIG_CFQ_GROUP_IOSCHED: missing
-- CONFIG_BLK_CGROUP: enabled
-- CONFIG_BLK_DEV_THROTTLING: enabled
-- CONFIG_CGROUP_PERF: enabled
-- CONFIG_CGROUP_HUGETLB: missing
-- CONFIG_NET_CLS_CGROUP: enabled
-- CONFIG_CGROUP_NET_PRIO: enabled
-- CONFIG_CFS_BANDWIDTH: enabled
-- CONFIG_FAIR_GROUP_SCHED: enabled
-- CONFIG_IP_NF_TARGET_REDIRECT: enabled
-- CONFIG_IP_VS: enabled
-- CONFIG_IP_VS_NFCT: enabled
-- CONFIG_IP_VS_PROTO_TCP: enabled
-- CONFIG_IP_VS_PROTO_UDP: enabled
-- CONFIG_IP_VS_RR: enabled
-- CONFIG_SECURITY_SELINUX: enabled
-- CONFIG_SECURITY_APPARMOR: enabled
-- CONFIG_EXT4_FS: enabled
-- CONFIG_EXT4_FS_POSIX_ACL: enabled
-- CONFIG_EXT4_FS_SECURITY: enabled
-- Network Drivers:
-  - "overlay":
-    - CONFIG_VXLAN: enabled
-    - CONFIG_BRIDGE_VLAN_FILTERING: enabled
-      Optional (for encrypted networks):
-      - CONFIG_CRYPTO: enabled
-      - CONFIG_CRYPTO_AEAD: enabled
-      - CONFIG_CRYPTO_GCM: enabled
-      - CONFIG_CRYPTO_SEQIV: enabled
-      - CONFIG_CRYPTO_GHASH: enabled
-      - CONFIG_XFRM: enabled
-      - CONFIG_XFRM_USER: enabled
-      - CONFIG_XFRM_ALGO: enabled
-      - CONFIG_INET_ESP: enabled
-      - CONFIG_NETFILTER_XT_MATCH_BPF: enabled
-      - CONFIG_INET_XFRM_MODE_TRANSPORT: enabled
-  - "ipvlan":
-    - CONFIG_IPVLAN: enabled
-  - "macvlan":
-    - CONFIG_MACVLAN: enabled
-    - CONFIG_DUMMY: enabled
-  - "ftp,tftp client in container":
-    - CONFIG_NF_NAT_FTP: enabled
-    - CONFIG_NF_CONNTRACK_FTP: enabled
-    - CONFIG_NF_NAT_TFTP: enabled
-    - CONFIG_NF_CONNTRACK_TFTP: enabled
-- Storage Drivers:
-  - "btrfs":
-    - CONFIG_BTRFS_FS: enabled
-    - CONFIG_BTRFS_FS_POSIX_ACL: enabled
-  - "overlay":
-    - CONFIG_OVERLAY_FS: enabled
-  - "zfs":
-    - /dev/zfs: missing
-    - zfs command: missing
-    - zpool command: missing
-
-Limits:
-- /proc/sys/kernel/keys/root_maxkeys: 1000000
-```
+目前的内核测试脚本结果请查看 [kernel-check-result.log](https://github.com/xici/lavender-docker-kernel/blob/master/kernel-check-result.log)
 
 ~~奇怪的是 missing 的选项我已经在内核编译配置中启用了，但刷入之后测试还是没有~~目前已知 missing 的选项是内核不支持的
 
@@ -178,7 +62,7 @@ Limits:
 
 ## 自行编译
 
-可以使用我提供的 `Dockerfile` 构建镜像。在内核源码根目录执行 `build_kernel.sh` 快速开始编译：
+可以使用我提供的 `Dockerfile` 构建镜像。进入容器后，在内核源码根目录执行 `build_kernel.sh` 快速开始编译：
 
 ```bash
 bash build_kernel.sh
